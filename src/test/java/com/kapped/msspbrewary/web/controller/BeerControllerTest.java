@@ -52,7 +52,6 @@ public class BeerControllerTest {
     public void getBeer() throws Exception {
         given(beerService.getBeerById(any(UUID.class))).willReturn(validBeerDTO);
 
-
         mockMvc.perform(get("/api/v1/beer/" + validBeerDTO.getId().toString()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -64,7 +63,7 @@ public class BeerControllerTest {
 
     @Test
     public void handlePost() throws Exception {
-        //given
+        // given
         BeerDTO beerDTO = validBeerDTO;
         beerDTO.setId(null);
         BeerDTO savedBeerDTO = BeerDTO.builder().id(UUID.randomUUID()).beerName("New Beer").build();
@@ -76,23 +75,21 @@ public class BeerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(beerDtoJson))
                 .andExpect(status().isCreated());
-
     }
 
     @Test
     public void handleUpdate() throws Exception {
-        //given
+        // given
         BeerDTO beerDTO = validBeerDTO;
+        beerDTO.setId(null);
         String beerDTOJson = objectMapper.writeValueAsString(beerDTO);
 
-        //when
-        mockMvc.perform(put("/api/v1/beer/" + validBeerDTO.getId())
+        // when
+        mockMvc.perform(put("/api/v1/beer/" + UUID.randomUUID())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(beerDTOJson))
                 .andExpect(status().isNoContent());
 
         then(beerService).should().updateBeerDTO(any(), any());
-
     }
-
 }

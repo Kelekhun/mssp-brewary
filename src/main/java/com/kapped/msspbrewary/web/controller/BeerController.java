@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RequestMapping("/api/v1/beer")
@@ -26,7 +27,7 @@ public class BeerController {
                 HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity handlePost(@RequestBody BeerDTO beerDTO){
+    public ResponseEntity handlePost(@Valid @RequestBody BeerDTO beerDTO){
 
         BeerDTO savedBeerDTO = beerService.saveNewBeerDTO(beerDTO);
 
@@ -39,7 +40,7 @@ public class BeerController {
     }
 
     @PutMapping("/{beerId}")
-    public  ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId, @RequestBody BeerDTO beerDTO) {
+    public  ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId, @Valid @RequestBody BeerDTO beerDTO) {
 
         beerService.updateBeerDTO(beerId, beerDTO);
 
