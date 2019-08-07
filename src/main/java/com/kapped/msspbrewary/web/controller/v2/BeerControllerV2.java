@@ -4,6 +4,9 @@ import com.kapped.msspbrewary.services.BeerService;
 import com.kapped.msspbrewary.services.v2.BeerServiceV2;
 import com.kapped.msspbrewary.web.model.BeerDTO;
 import com.kapped.msspbrewary.web.model.v2.BeerDTOV2;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@RequiredArgsConstructor
+@Slf4j
 @Validated
 @RequestMapping("/api/v2/beer")
 @RestController
 public class BeerControllerV2 {
 
     private final BeerServiceV2 beerServiceV2;
-
-    public BeerControllerV2(BeerServiceV2 beerServiceV2) {
-        this.beerServiceV2 = beerServiceV2;
-    }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{beerId}")
     public ResponseEntity<BeerDTOV2> getBeer(@NotNull @PathVariable("beerId") UUID beerId){
@@ -37,9 +38,10 @@ public class BeerControllerV2 {
     @PostMapping
     public ResponseEntity handlePost(@Valid @NotNull @RequestBody BeerDTOV2 beerDTOV2){
 
-        BeerDTOV2 savedBeerDTO = beerServiceV2.saveNewBeerDTO(beerDTOV2);
+        log.debug("in handle post...");
+        val savedBeerDTO = beerServiceV2.saveNewBeerDTO(beerDTOV2);
 
-        HttpHeaders headers = new HttpHeaders();
+        val headers = new HttpHeaders();
 
         headers.add("Location", "/api/v2/beer/" + savedBeerDTO.getId().toString());
 
