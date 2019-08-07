@@ -22,9 +22,8 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Slf4j
-@Validated
-@RequestMapping("/api/v2/beer")
 @RestController
+@RequestMapping("/api/v2/beer")
 public class BeerControllerV2 {
 
     private final BeerServiceV2 beerServiceV2;
