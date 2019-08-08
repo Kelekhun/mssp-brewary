@@ -4,12 +4,8 @@ import com.kapped.msspbrewary.domain.Beer;
 import com.kapped.msspbrewary.web.model.BeerDTO;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(uses = {DateMapper.class})
 public interface BeerMapper {
-
     BeerDTO BeerToBeerDTO(Beer beer);
-
     Beer BeerDTOToBeer(BeerDTO dto);
-
-
 }
